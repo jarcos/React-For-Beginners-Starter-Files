@@ -3,6 +3,8 @@ import AddFishForm from './AddFishForm';
 import EditFishForm from './EdifFishForm';
 import PropTypes from 'prop-types';
 import Login from './Login';
+import { firebaseApp } from '../base';
+import firebase from 'firebase';
 
 class Inventory extends React.Component {
   static propTypes = {
@@ -12,8 +14,16 @@ class Inventory extends React.Component {
     loadSampleFishes: PropTypes.func,
   };
 
+  authHandler = async authData => {
+    console.log(authData);
+  };
+
   authenticate = provider => {
-    alert(provider);
+    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
+    firebaseApp
+      .auth()
+      .signInWithPopup(authProvider)
+      .then(this.authHandler);
   };
 
   render() {
